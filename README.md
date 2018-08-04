@@ -19,5 +19,5 @@ Both scripts return a speech friendly message that can be passed to Snips to rep
 
 
 Sample use code:
-import readTweet as rt
-rt.run(understoodIntent)
+`import readTweet as rt`
+`rt.run(understoodIntent)`
