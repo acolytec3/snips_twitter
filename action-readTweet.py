@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import ConfigParser
-from hermes_python.hermes import Hermes
-from hermes_python.ontology import *
+#from hermes_python.hermes import Hermes
+#rom hermes_python.ontology import *
 import io
 import tweepy
 from tweepy import OAuthHandler
