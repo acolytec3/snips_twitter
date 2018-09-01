@@ -24,17 +24,13 @@ def read_configuration_file(configuration_file):
     except (IOError, ConfigParser.Error) as e:
         return dict()
 
-def readTweet(hermes, intentMmessage):
-	data = parse_slots(msg)
-	drumpf = api.user_timeline(id=data['User'],tweet_mode='extended',count=10)
+def readTweet(hermes, intentMessage):
+	drumpf = api.user_timeline(id=intentMessage.slots.user,tweet_mode='extended',count=10)
 	for status in drumpf:
 		if status.retweeted==False:
 			print(status.full_text)
 		break
 	return status._json['user']['name'] + 'said ' + status.full_text
-
-def parse_slots(data):
-	return dict((slot['slotName'], slot['value']['value']) for slot in data['slots'])
 
 def readTweet_callback(hermes, intentMessage):
 	message = readTweet(hermes, intentMessage)
