@@ -25,16 +25,16 @@ def read_configuration_file(configuration_file):
         return dict()
 
 def readTweet(hermes, intentMessage):
-	drumpf = api.user_timeline(id=intentMessage.slots.user,tweet_mode='extended',count=10)
+	drumpf = api.user_timeline(id=intentMessage.slots.User[0].slot_value.value.value,tweet_mode='extended',count=10)
 	for status in drumpf:
 		if status.retweeted==False:
 			print(status.full_text)
 		break
-	return status._json['user']['name'] + 'said ' + status.full_text
+	return status._json['user']['name'] + ' said ' + status.full_text
 
 def readTweet_callback(hermes, intentMessage):
 	message = readTweet(hermes, intentMessage)
-	hermes.publish_end_session(intentMessage.current_session_id, message)
+	hermes.publish_end_session(intentMessage.session_id, message)
 
 
 if __name__ == "__main__":
