@@ -7,6 +7,7 @@ from hermes_python.ontology import *
 import io
 import tweepy
 from tweepy import OAuthHandler
+import preprocessor as p
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
 CONFIG_INI = "config.ini"
@@ -30,7 +31,8 @@ def readTweet(hermes, intentMessage):
 		if status.retweeted==False:
 			print(status.full_text)
 		break
-	return status._json['user']['name'] + ' said ' + status.full_text
+	tweet = status.full_text
+	return status._json['user']['name'] + ' said ' + p.clean(tweet)
 
 def readTweet_callback(hermes, intentMessage):
 	message = readTweet(hermes, intentMessage)
@@ -43,6 +45,7 @@ if __name__ == "__main__":
 	auth = OAuthHandler(config['secret']['consumerkey'],config['secret']['consumersecret'])
 	auth.set_access_token(config['secret']['appkey'],config['secret']['appsecret'])
 	api = tweepy.API(auth)
+	p.set_options(p.OPT.URL, p.OPT.EMOJI, p.OPT.SMILEY)
 
 	with Hermes("localhost:1883") as h:
 		h.subscribe_intent("readTweet",readTweet_callback).start()
