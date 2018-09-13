@@ -2,4 +2,5 @@
 hermes-python>=0.1
 
 #Twitter API python wrapper used by this app
-tweepy
+twitterscraper
+tweet-preprocessor
