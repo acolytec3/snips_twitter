@@ -5,8 +5,7 @@ import ConfigParser
 from hermes_python.hermes import Hermes
 from hermes_python.ontology import *
 import io
-import tweepy
-from tweepy import OAuthHandler
+import tweetscraper as ts
 import preprocessor as p
 
 CONFIGURATION_ENCODING_FORMAT = "utf-8"
@@ -26,13 +25,10 @@ def read_configuration_file(configuration_file):
         return dict()
 
 def readTweet(hermes, intentMessage):
-	drumpf = api.user_timeline(id=intentMessage.slots.User[0].slot_value.value.value,tweet_mode='extended',count=10)
-	for status in drumpf:
-		if status.retweeted==False:
-			print(status.full_text)
-		break
-	tweet = status.full_text
-	return status._json['user']['name'] + ' said ' + p.clean(tweet)
+	drumpf = ts.query.query_tweets_from_user(intentMessage.slots.User[0].slot_value.value.value,1)
+	tweet = drumpf[0].text
+	name = drumpf[0].fullname
+	return name + ' said ' + p.clean(tweet.encode('utf-8'))
 
 def readTweet_callback(hermes, intentMessage):
 	message = readTweet(hermes, intentMessage)
@@ -40,12 +36,7 @@ def readTweet_callback(hermes, intentMessage):
 
 
 if __name__ == "__main__":
-	config = read_configuration_file(CONFIG_INI)
-
-	auth = OAuthHandler(config['secret']['consumerkey'],config['secret']['consumersecret'])
-	auth.set_access_token(config['secret']['appkey'],config['secret']['appsecret'])
-	api = tweepy.API(auth)
-	p.set_options(p.OPT.URL, p.OPT.EMOJI, p.OPT.SMILEY)
+#	config = read_configuration_file(CONFIG_INI)
 
 	with Hermes("localhost:1883") as h:
 		h.subscribe_intent("readTweet",readTweet_callback).start()
