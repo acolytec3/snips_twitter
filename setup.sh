@@ -11,7 +11,7 @@ then
     then
         echo "could not find python"
     fi
-    virtualenv -p $PYTHON $VENV
+    virtualenv --system-site-packages -p $PYTHON $VENV
 
 fi
 
