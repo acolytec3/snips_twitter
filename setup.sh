@@ -11,10 +11,10 @@ then
     then
         echo "could not find python"
     fi
-    virtualenv --system-site-packages -p $PYTHON $VENV
+    virtualenv -p $PYTHON $VENV
 
 fi
 
 . $VENV/bin/activate
 
-sudo pip install -I -r requirements.txt
+sudo pip install -r requirements.txt
