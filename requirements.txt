@@ -1,5 +1,6 @@
 #hermes bindings
 hermes-python>=0.1
+future
 
 #Twitter API python wrapper used by this app
 twitterscraper
