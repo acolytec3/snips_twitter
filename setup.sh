@@ -17,4 +17,4 @@ fi
 
 . $VENV/bin/activate
 
-sudo pip install --no-deps -I -r requirements.txt
+sudo pip install -I -r requirements.txt
